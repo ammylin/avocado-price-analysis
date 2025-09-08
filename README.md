@@ -30,14 +30,14 @@ The results are visualized using Matplotlib, showing the actual vs. predicted pr
 
 ### Outcomes 
 #### Pandas Analysis
-![Avocado Prices in Chicago Based on Month (Pandas)](avg prices_pandas.png)
+![Avocado Prices in Chicago Based on Month (Pandas)](avg_prices_pandas.png)
 
 Using Pandas, I got the following metrics:
 - Mean Absolute Error (MAE): 0.12
 - R-squared: 0.15
 
 #### Polars Analysis
-![Avocado Prices in Chicago Based on Month (Polars)](avg prices_polars.png)
+![Avocado Prices in Chicago Based on Month (Polars)](avg_prices_polars.png)
 
 Using Polars, I got the following metrics:
 - Mean Absolute Error (MAE): 0.02
