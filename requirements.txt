@@ -1,0 +1,10 @@
+pandas
+polars
+matplotlib
+scikit-learn
+pylint
+flake8
+pytest
+click
+black
+pytest-cov
