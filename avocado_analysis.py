@@ -34,9 +34,9 @@ def preprocess_data_pandas(df):
     # Remove duplicates
     df.drop_duplicates(inplace=True)
     # Adjust the date format
-    df["Date"] = pd.to_datetime(df["Date"], format="%Y-%m-%d")
-    #  Extract month from the date
-    df["month"] = df["Date"].dt.month
+    df["Date"] = pd.to_datetime(df["Date"], format="%Y-%m-%d")  # date format
+    # Extract month from the date
+    df["month"] = df["Date"].dt.month  # extract month
     return df
 
 
@@ -53,10 +53,9 @@ def preprocess_data_polars(df):
 
     if df["Date"].dtype == pl.Date:
         df = df.with_columns(
-            # Extract month from the date
             pl.col("Date")
             .dt.month()
-            .alias("month")
+            .alias("month")  # extract month
         )
     else:
         print("ERROR: Date conversion failed. Please check the date format.")
@@ -80,7 +79,9 @@ def compute_monthly_average_price_pandas(df):
 
 def compute_monthly_average_price_polars(df):
     """Compute the average avocado price by month using Polars."""
-    return df.group_by("month").agg(pl.col("AveragePrice").mean().alias("AveragePrice"))
+    return df.group_by("month").agg(
+        pl.col("AveragePrice").mean().alias("AveragePrice")
+    )
 
 
 def train_model(X, y):
@@ -95,10 +96,9 @@ def evaluate_model(model, X_test, y_test):
     """Evaluate the model's performance using MAE and R²."""
     # Predict the target values for the test set
     y_pred = model.predict(X_test)
-    # Mean Absolute Error, which measures the average magnitude of the errors
+    # Mean Absolute Error: average magnitude of the errors
     mae = mean_absolute_error(y_test, y_pred)
-    # R-squared, which indicates the proportion of the variance in the
-    # dependent variable that is predictable from the independent variable(s).
+    # R-squared: proportion of variance explained by the model
     r2 = r2_score(y_test, y_pred)
     return mae, r2
 
@@ -126,7 +126,9 @@ def run_analysis_with_pandas(file_path):
     if df is not None:
         df = preprocess_data_pandas(df)
         chicago_avocados = filter_chicago_data_pandas(df)
-        monthly_avg_price = compute_monthly_average_price_pandas(chicago_avocados)
+        monthly_avg_price = compute_monthly_average_price_pandas(
+            chicago_avocados
+        )
 
         # Prepare data for modeling
         X = monthly_avg_price[["month"]]
@@ -139,12 +141,14 @@ def run_analysis_with_pandas(file_path):
         model = train_model(X_train, y_train)
 
         # Evaluate the model
-        mae, r2 = evaluate_model(model, X_test, y_test)
-        print(f"Pandas - Mean Absolute Error: {mae:.2f}")
-        print(f"Pandas - R-squared: {r2:.2f}")
+    mae, r2 = evaluate_model(model, X_test, y_test)
+    print(f"Pandas - Mean Absolute Error: {mae:.2f}")
+    print(f"Pandas - R-squared: {r2:.2f}")
 
-        # Plot results
-        plot_results(X_test, y_test, model.predict(X_test), "Pandas")
+    # Plot results
+    plot_results(
+        X_test, y_test, model.predict(X_test), "Pandas"
+    )
 
 
 def run_analysis_with_polars(file_path):
