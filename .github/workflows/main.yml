@@ -21,7 +21,7 @@ jobs:
         pip install -r requirements.txt
 
     - name: Lint with flake8
-      run: flake8 avocado_price_analysis.py
+      run: flake8 avocado_analysis.py
 
     - name: Run tests
-      run: pytest --cov=avocado_price_analysis
+      run: pytest --cov=avocado_analysis
