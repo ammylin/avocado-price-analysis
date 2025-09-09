@@ -15,7 +15,7 @@ from avocado_analysis import (
 )
 
 
-class TestAvocadoModel(unittest.TestCase):
+class TestAvocadoModel(unittest.TestCase): # Test case for the avocado analysis using Pandas. Using a unit test framework to ensure each function works as expected.
 
     def setUp(self):
         # Sample data for testing
@@ -43,34 +43,34 @@ class TestAvocadoModel(unittest.TestCase):
 
     def test_preprocess_data(self):
         # Test preprocessing data
-        df_processed = preprocess_data_pandas(self.df.copy())
+        df_processed = preprocess_data_pandas(self.df.copy()) # Use copy to avoid modifying the original data
         self.assertEqual(df_processed.shape[0], 5)  # No duplicates
-        self.assertTrue(pd.api.types.is_datetime64_any_dtype(df_processed["Date"]))
+        self.assertTrue(pd.api.types.is_datetime64_any_dtype(df_processed["Date"])) # Check the date format
 
     def test_filter_chicago_data(self):
         # Test filtering for Chicago data
-        df_filtered = filter_chicago_data_pandas(self.df.copy())
-        self.assertEqual(df_filtered.shape[0], 5)  # All rows are from Chicago
+        df_filtered = filter_chicago_data_pandas(self.df.copy()) # Use copy to avoid modifying the original data
+        self.assertEqual(df_filtered.shape[0], 5)  # Check if the number of rows is as expected for Chicago data
 
     def test_compute_monthly_average_price(self):
         # Test computing monthly average price
         df_processed = preprocess_data_pandas(self.df.copy())  # Ensure preprocessing
-        df_filtered = filter_chicago_data_pandas(df_processed)
-        monthly_avg = compute_monthly_average_price_pandas(df_filtered)
-        self.assertEqual(monthly_avg.shape[0], 1)  # Only one month in the sample data
+        df_filtered = filter_chicago_data_pandas(df_processed) 
+        monthly_avg = compute_monthly_average_price_pandas(df_filtered) 
+        self.assertEqual(monthly_avg.shape[0], 1)  # Check if there is only one month in the sample data
         self.assertAlmostEqual(
             monthly_avg["AveragePrice"].iloc[0], 1.20
-        )  # Average price
+        )  # Check the average price
 
     def test_train_model(self):
         # Test training the model
         df_processed = preprocess_data_pandas(self.df.copy())  # Ensure preprocessing
-        df_filtered = filter_chicago_data_pandas(df_processed)
-        monthly_avg = compute_monthly_average_price_pandas(df_filtered)
-        X = monthly_avg[["month"]]
+        df_filtered = filter_chicago_data_pandas(df_processed) 
+        monthly_avg = compute_monthly_average_price_pandas(df_filtered) 
+        X = monthly_avg[["month"]] 
         y = monthly_avg["AveragePrice"]
         model = train_model(X, y)
-        self.assertIsNotNone(model)
+        self.assertIsNotNone(model) # Check that the model is not None
 
     def test_evaluate_model(self):
         # Test model evaluation
@@ -80,9 +80,9 @@ class TestAvocadoModel(unittest.TestCase):
         X = monthly_avg[["month"]]
         y = monthly_avg["AveragePrice"]
         model = train_model(X, y)
-        mae, r2 = evaluate_model(model, X, y)
-        self.assertIsInstance(mae, float)
-        self.assertIsInstance(r2, float)
+        mae, r2 = evaluate_model(model, X, y) 
+        self.assertIsInstance(mae, float) # Check that MAE is a float
+        self.assertIsInstance(r2, float) # Check that R² is a float
 
 
 class TestAvocadoModelPolars(unittest.TestCase):
@@ -114,21 +114,21 @@ class TestAvocadoModelPolars(unittest.TestCase):
     def test_preprocess_data(self):
         # Test preprocessing data
         df_processed = preprocess_data_polars(self.df.clone())
-        self.assertEqual(df_processed.height, 5)  # No duplicates
-        self.assertTrue(df_processed["Date"].dtype == pl.Date)
+        self.assertEqual(df_processed.height, 5)  # Check that there are no duplicates
+        self.assertTrue(df_processed["Date"].dtype == pl.Date) # Check the date format
 
     def test_filter_chicago_data(self):
         # Test filtering for Chicago data
         df_filtered = filter_chicago_data_polars(self.df.clone())
-        self.assertEqual(df_filtered.height, 5)  # All rows are from Chicago
+        self.assertEqual(df_filtered.height, 5)  # Check if the number of rows is as expected for Chicago data
 
     def test_compute_monthly_average_price(self):
         # Test computing monthly average price
         df_processed = preprocess_data_polars(self.df.clone())  # Ensure preprocessing
         df_filtered = filter_chicago_data_polars(df_processed)
         monthly_avg = compute_monthly_average_price_polars(df_filtered)
-        self.assertEqual(monthly_avg.height, 1)  # Only one month in the sample data
-        self.assertAlmostEqual(monthly_avg["AveragePrice"][0], 1.20)  # Average price
+        self.assertEqual(monthly_avg.height, 1)  # Check if there is only one month in the sample data
+        self.assertAlmostEqual(monthly_avg["AveragePrice"][0], 1.20)  # Check the average price
 
     def test_train_model(self):
         # Test training the model
@@ -138,7 +138,7 @@ class TestAvocadoModelPolars(unittest.TestCase):
         X = monthly_avg[["month"]]
         y = monthly_avg["AveragePrice"]
         model = train_model(X, y)
-        self.assertIsNotNone(model)
+        self.assertIsNotNone(model) # Check that the model is not None
 
     def test_evaluate_model(self):
         # Test model evaluation
@@ -149,9 +149,8 @@ class TestAvocadoModelPolars(unittest.TestCase):
         y = monthly_avg["AveragePrice"]
         model = train_model(X, y)
         mae, r2 = evaluate_model(model, X, y)
-        self.assertIsInstance(mae, float)
-        self.assertIsInstance(r2, float)
-
+        self.assertIsInstance(mae, float) # Check that MAE is a float
+        self.assertIsInstance(r2, float) # Check that R² is a float
 
 if __name__ == "__main__":
-    unittest.main()
+    unittest.main() # Run the unit tests
