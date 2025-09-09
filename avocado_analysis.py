@@ -31,16 +31,18 @@ def load_data_polars(file_path):
 
 def preprocess_data_pandas(df):
     """Preprocess the dataset using Pandas."""
-    df.drop_duplicates(inplace=True) # Remove duplicates
-    df["Date"] = pd.to_datetime(df["Date"], format="%Y-%m-%d") # Adjust the date format
-    df["month"] = df["Date"].dt.month # Extract month from the date
+    # Remove duplicates
+    df.drop_duplicates(inplace=True)
+    # Adjust the date format
+    df["Date"] = pd.to_datetime(df["Date"], format="%Y-%m-%d")
+    #  Extract month from the date
+    df["month"] = df["Date"].dt.month
     return df
 
 
 def preprocess_data_polars(df):
     """Preprocess the dataset using Polars."""
-    df = df.unique() # Remove duplicates
-
+    df = df.unique()  # Remove duplicates
 
     # Convert the Date column to a date type
     df = df.with_columns(
@@ -51,7 +53,10 @@ def preprocess_data_polars(df):
 
     if df["Date"].dtype == pl.Date:
         df = df.with_columns(
-            pl.col("Date").dt.month().alias("month")  # Extract month from the date
+            # Extract month from the date
+            pl.col("Date")
+            .dt.month()
+            .alias("month")
         )
     else:
         print("ERROR: Date conversion failed. Please check the date format.")
@@ -81,26 +86,35 @@ def compute_monthly_average_price_polars(df):
 def train_model(X, y):
     """Train a linear regression model and return the trained model."""
     model = LinearRegression()
-    model.fit(X, y) # Train the model; X is the feature (month), y is the target (AveragePrice)
+    # Train the model; X is the feature (month), y is the target (AveragePrice)
+    model.fit(X, y)
     return model
 
 
 def evaluate_model(model, X_test, y_test):
     """Evaluate the model's performance using MAE and R²."""
-    y_pred = model.predict(X_test) # Predict the target values for the test set
-    mae = mean_absolute_error(y_test, y_pred) # Mean Absolute Error, which measures the average magnitude of the errors in a set of predictions, without considering their direction.
-    r2 = r2_score(y_test, y_pred) # R-squared, which indicates the proportion of the variance in the dependent variable that is predictable from the independent variable(s).
+    # Predict the target values for the test set
+    y_pred = model.predict(X_test)
+    # Mean Absolute Error, which measures the average magnitude of the errors
+    mae = mean_absolute_error(y_test, y_pred)
+    # R-squared, which indicates the proportion of the variance in the
+    # dependent variable that is predictable from the independent variable(s).
+    r2 = r2_score(y_test, y_pred)
     return mae, r2
 
 
 def plot_results(X_test, y_test, y_pred, library):
     """Plot the actual vs predicted prices."""
-    plt.figure(figsize=(10, 6)) # Set the figure size for better visibility
-    plt.scatter(X_test, y_test, color="blue", label="Actual Prices")   # Scatter plot for actual prices
-    plt.scatter(X_test, y_pred, color="red", label="Predicted Prices")  # Scatter plot for predicted prices
-    plt.plot(X_test, y_pred, color="green", linewidth=2, label="Regression Line")   # Regression line
-    plt.title(f"Avocado Prices in Chicago Based on Month ({library})") 
-    plt.xlabel("Month")         
+    # Set the figure size for better visibility
+    plt.figure(figsize=(10, 6))
+    # Scatter plot for actual prices
+    plt.scatter(X_test, y_test, color="blue", label="Actual Prices")
+    # Scatter plot for predicted prices
+    plt.scatter(X_test, y_pred, color="red", label="Predicted Prices")
+    # Regression line
+    plt.plot(X_test, y_pred, color="green", linewidth=2, label="Regression Line")
+    plt.title(f"Avocado Prices in Chicago Based on Month ({library})")
+    plt.xlabel("Month")
     plt.ylabel("Average Price")
     plt.legend()
     plt.show()
@@ -108,7 +122,7 @@ def plot_results(X_test, y_test, y_pred, library):
 
 def run_analysis_with_pandas(file_path):
     """Run the analysis using Pandas."""
-    df = load_data_pandas(file_path)   
+    df = load_data_pandas(file_path)
     if df is not None:
         df = preprocess_data_pandas(df)
         chicago_avocados = filter_chicago_data_pandas(df)
@@ -125,7 +139,7 @@ def run_analysis_with_pandas(file_path):
         model = train_model(X_train, y_train)
 
         # Evaluate the model
-        mae, r2 = evaluate_model(model, X_test, y_test) 
+        mae, r2 = evaluate_model(model, X_test, y_test)
         print(f"Pandas - Mean Absolute Error: {mae:.2f}")
         print(f"Pandas - R-squared: {r2:.2f}")
 

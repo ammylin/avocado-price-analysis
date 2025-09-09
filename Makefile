@@ -11,7 +11,7 @@ format:
 
 # Lint code with Flake8
 lint:
-	flake8 avocado_analysis.py test_avocado_analysis.py --ignore=E501,W503
+	flake8 avocado_analysis.py test_avocado_analysis.py
 
 # Run tests with coverage
 test:
