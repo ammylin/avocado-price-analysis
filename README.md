@@ -1,3 +1,5 @@
+[![Avocado Price Analysis](https://github.com/ammylin/avocado-price-analysis/actions/workflows/main.yml/badge.svg)](https://github.com/ammylin/avocado-price-analysis/actions/workflows/main.yml)
+
 # IDS 706: Avocado Price Analysis (Week 2)
 
 ## Project Description
