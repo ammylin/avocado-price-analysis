@@ -52,11 +52,7 @@ def preprocess_data_polars(df):
     )
 
     if df["Date"].dtype == pl.Date:
-        df = df.with_columns(
-            pl.col("Date")
-            .dt.month()
-            .alias("month")  # extract month
-        )
+        df = df.with_columns(pl.col("Date").dt.month().alias("month"))  # extract month
     else:
         print("ERROR: Date conversion failed. Please check the date format.")
     return df
@@ -79,9 +75,7 @@ def compute_monthly_average_price_pandas(df):
 
 def compute_monthly_average_price_polars(df):
     """Compute the average avocado price by month using Polars."""
-    return df.group_by("month").agg(
-        pl.col("AveragePrice").mean().alias("AveragePrice")
-    )
+    return df.group_by("month").agg(pl.col("AveragePrice").mean().alias("AveragePrice"))
 
 
 def train_model(X, y):
@@ -126,9 +120,7 @@ def run_analysis_with_pandas(file_path):
     if df is not None:
         df = preprocess_data_pandas(df)
         chicago_avocados = filter_chicago_data_pandas(df)
-        monthly_avg_price = compute_monthly_average_price_pandas(
-            chicago_avocados
-        )
+        monthly_avg_price = compute_monthly_average_price_pandas(chicago_avocados)
 
         # Prepare data for modeling
         X = monthly_avg_price[["month"]]
@@ -146,9 +138,7 @@ def run_analysis_with_pandas(file_path):
     print(f"Pandas - R-squared: {r2:.2f}")
 
     # Plot results
-    plot_results(
-        X_test, y_test, model.predict(X_test), "Pandas"
-    )
+    plot_results(X_test, y_test, model.predict(X_test), "Pandas")
 
 
 def run_analysis_with_polars(file_path):
