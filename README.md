@@ -1,12 +1,12 @@
 [![Avocado Price Analysis](https://github.com/ammylin/avocado-price-analysis/actions/workflows/main.yml/badge.svg)](https://github.com/ammylin/avocado-price-analysis/actions/workflows/main.yml)
 
-# IDS 706: Avocado Price Analysis (Week 2)
+# IDS 706: Avocado Price Analysis (Weeks 2 & 3)
 
 ## Project Description
-The provided code is a comprehensive analysis of avocado prices in Chicago, utilizing both Pandas and Polars libraries for data manipulation and analysis. The goal is to determine how average avocado prices vary by month in the year 2015. The analysis employs linear regression to model the relationship between the month and the average price of avocados.
+The provided code is a comprehensive analysis of avocado prices in Chicago, utilizing both Pandas and Polars libraries for data manipulation and analysis. The goal is to determine how average avocado prices vary by month in the year 2015. The analysis employs linear regression to model the relationship between the month and the average price of avocados. 
 
 ### Setup Instructions 
-To set up this repository, I followed the steps outlined in Week 1's Python template here: `https://github.com/ammylin/IDS_706_python_temp`. Additionally, I loaded the CSV file from Kaggle in order to perform analysis on it. I also installed the required libraries, which I outline below: 
+To set up this repository, I followed the steps outlined in Week 1's Python template here: `https://github.com/ammylin/IDS_706_python_temp`. Additionally, I loaded the CSV file from Kaggle in order to perform analysis on it. I also installed the required libraries, which I outline below, as well as my instructions for setting up Dev containers and Docker: 
 
 #### Download the Dataset
 1. Go to the Kaggle dataset page: [Avocado Prices Dataset](https://www.kaggle.com/datasets/neuromusic/avocado-prices/data).
@@ -25,6 +25,24 @@ To install the required libraries, you can use pip. Run the following command in
 ```
 pip install pandas polars matplotlib scikit-learn
 ```
+
+#### Creating a Dev Container and Configuring Docker
+After downloading the Dev Containers extension from VSCode and installing the Docker desktop application, I created my Dev container in VSCode using the following steps: 
+1. Press `Cmd + Shift + P`, then click on "Dev Containers: Add Dev Container Configuration Files". 
+2. Select the configuration of choice (for this, I selected the Python 3 configuration). 
+3. In the next menu, add more features as needed. 
+4. Open the Dev container by clicking on the blue button on the bottom left corner of VSCode. 
+
+At this point, we can open up the Docker desktop app and see, under "Containers", the details of our configuration. Now, to build an image from the Dockerfile and run the Docker container, I created a Dockerfile and related setups by: 
+1. Press `Cmd + Shift + P`, then click on "Docker: Add Docker Files to Workspace." 
+2. In the terminal, I ran: `docker build -t container-name .` (For me, "container-name" was "naughty agnesi"). This builds an image from the Dockerfile. 
+3. Next, I ran `docker run -d -p 8088:3000 --name my-avocado-container welcome-to-docker`. This runs the container in the background (-d), maps port 8088 on my host to port 3000 inside the container, and names the container my-avocado-container.
+4. On Docker desktop app, under "Ports," I clicked `8088:3000`, which opened the following on my browser: 
+![Congratuations! You ran your first container!](ran_docker.png)
+This is what my Docker desktop app displayed under the "Containers" tab: 
+![Docker Containers](docker_desktop.png)
+
+Setting up Dev containers with Docker helps us address the "it works on my machine" problem; that is, by containerizing our development environment, we ensure consistent setups across different machines and team members. This makes onboarding smoother, eliminates environment mismatches, and streamlines deployment, since the container encapsulates all dependencies and configurations in a portable way.
 
 ## Key Components of the Code
 ### Data Loading and Exploration
