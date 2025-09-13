@@ -12,7 +12,7 @@ file_path = "avocado.csv"
 def load_data_pandas(file_path):
     """Load the avocado dataset using Pandas."""
     try:
-        df = pd.read_csv(file_path)
+        df = pd.read_csv(file_path, engine="python")
         return df
     except FileNotFoundError:
         print("ERROR: The specified file was not found!")
