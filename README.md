@@ -34,7 +34,11 @@ After downloading the Dev Containers extension from VSCode and installing the Do
 4. Open the Dev container by clicking on the blue button on the bottom left corner of VSCode. 
 
 At this point, we can open up the Docker desktop app and see, under "Containers", the details of our configuration. Now, to build an image from the Dockerfile and run the Docker container, I created a Dockerfile and related setups by: 
+<<<<<<< HEAD
 1. Press `Cmd + Shift + P`, then click on "Docker: Add Docker Files to Workspace." 
+=======
+1. Press `Cmd + Shift + P`, then click on "Containers: Add Docker Files to Workspace." 
+>>>>>>> c42bf71 (refactoring)
 2. In the terminal, I ran: `docker build -t container-name .` (For me, "container-name" was "naughty agnesi"). This builds an image from the Dockerfile. 
 3. Next, I ran `docker run -d -p 8088:3000 --name my-avocado-container welcome-to-docker`. This runs the container in the background (-d), maps port 8088 on my host to port 3000 inside the container, and names the container my-avocado-container.
 4. On Docker desktop app, under "Ports," I clicked `8088:3000`, which opened the following on my browser: 
