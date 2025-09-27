@@ -1,4 +1,4 @@
-[![Avocado Price Analysis](https://github.com/ammylin/avocado-price-analysis/actions/workflows/main.yml/badge.svg)](https://github.com/ammylin/avocado-price-analysis/actions/workflows/main.yml)
+[![Avocado Price Analysis](https://github.com/ammylin/avocado-price-analysis/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/ammylin/avocado-price-analysis/actions/workflows/main.yml)
 
 # IDS 706: Avocado Price Analysis (Weeks 2 & 3)
 
