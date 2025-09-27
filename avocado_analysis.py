@@ -8,6 +8,7 @@ import time
 
 file_path = "avocado.csv"
 
+
 def load_data(file_path, library="pandas"):
     """Load the avocado dataset using the specified library."""
     try:
@@ -23,6 +24,7 @@ def load_data(file_path, library="pandas"):
     except Exception as e:
         print(f"An error occurred: {e}")
         return None
+
 
 def preprocess_data(df, library="pandas"):
     """Preprocess the dataset using the specified library."""
@@ -41,12 +43,14 @@ def preprocess_data(df, library="pandas"):
             print("ERROR: Date conversion failed. Please check the date format.")
     return df
 
+
 def filter_chicago_data(df, library="pandas"):
     """Filter the dataset for Chicago avocados using the specified library."""
     if library == "pandas":
         return df[df["region"] == "Chicago"]
     elif library == "polars":
         return df.filter(pl.col("region") == "Chicago")
+
 
 def compute_monthly_average_price(df, library="pandas"):
     """Compute the average avocado price by month using the specified library."""
@@ -57,11 +61,13 @@ def compute_monthly_average_price(df, library="pandas"):
             pl.col("AveragePrice").mean().alias("AveragePrice")
         )
 
+
 def train_model(X, y):
     """Train a linear regression model and return the trained model."""
     model = LinearRegression()
     model.fit(X, y)
     return model
+
 
 def evaluate_model(model, X_test, y_test):
     """Evaluate the model's performance using MAE and R²."""
@@ -69,6 +75,7 @@ def evaluate_model(model, X_test, y_test):
     mae = mean_absolute_error(y_test, y_pred)
     r2 = r2_score(y_test, y_pred)
     return mae, r2
+
 
 def plot_results(X_test, y_test, y_pred, library):
     """Plot the actual vs predicted prices."""
@@ -80,6 +87,7 @@ def plot_results(X_test, y_test, y_pred, library):
     plt.ylabel("Average Price")
     plt.legend()
     plt.show()
+
 
 def run_analysis(file_path, library):
     """Run the analysis using the specified library (Pandas or Polars)."""
@@ -97,7 +105,9 @@ def run_analysis(file_path, library):
             X = monthly_avg_price.select("month").to_numpy().reshape(-1, 1)
             y = monthly_avg_price.select("AveragePrice").to_numpy().ravel()
 
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        X_train, X_test, y_train, y_test = train_test_split(
+            X, y, test_size=0.2, random_state=42
+        )
 
         # Train the model
         model = train_model(X_train, y_train)
@@ -109,6 +119,7 @@ def run_analysis(file_path, library):
 
         # Plot results
         plot_results(X_test, y_test, model.predict(X_test), library)
+
 
 if __name__ == "__main__":
     # Run analysis with Pandas

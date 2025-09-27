@@ -81,7 +81,16 @@ class TestAvocadoModelPolars(unittest.TestCase):
             "AveragePrice": [1.00, 1.10, 1.20, 1.30, 1.40],
             "region": ["Chicago"] * 5,
         }
-        self.df = pl.DataFrame(data)
+
+        self.df = pl.DataFrame(
+            {
+                "Date": pl.Series("Date", data["Date"], dtype=pl.Utf8),
+                "AveragePrice": pl.Series(
+                    "AveragePrice", data["AveragePrice"], dtype=pl.Float64
+                ),
+                "region": pl.Series("region", data["region"], dtype=pl.Utf8),
+            }
+        )
 
     def test_load_data(self):
         df = load_data("avocado.csv", library="polars")
