@@ -6,7 +6,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, r2_score
 import time
 
-file_path = "avocado.csv"
+file_path = "data/avocado.csv"
 
 
 def load_data(file_path, library="pandas"):
@@ -34,13 +34,16 @@ def preprocess_data(df, library="pandas"):
         df["month"] = df["Date"].dt.month
     elif library == "polars":
         df = df.unique()
-        df = df.with_columns(
-            pl.col("Date").str.strptime(pl.Date, "%Y-%m-%d").alias("Date")
-        )
-        if df["Date"].dtype == pl.Date:
-            df = df.with_columns(pl.col("Date").dt.month().alias("month"))
-        else:
-            print("ERROR: Date conversion failed. Please check the date format.")
+        try:
+            df = df.with_columns(
+                pl.col("Date").str.strptime(pl.Date, "%Y-%m-%d").alias("Date")
+            )
+            if df["Date"].dtype == pl.Date:
+                df = df.with_columns(pl.col("Date").dt.month().alias("month"))
+            else:
+                print("ERROR: Date conversion failed. Please check the date format.")
+        except Exception as e:
+            print(f"An error occurred during preprocessing: {e}")
     return df
 
 

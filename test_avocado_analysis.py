@@ -29,7 +29,7 @@ class TestAvocadoModelPandas(unittest.TestCase):
         self.df = pd.DataFrame(data)
 
     def test_load_data(self):
-        df = load_data("avocado.csv", library="pandas")
+        df = load_data("data/avocado.csv", library="pandas")
         self.assertIsNotNone(df)
         self.assertGreater(df.shape[0], 0)
         self.assertEqual(df.shape[1], 14)
@@ -93,7 +93,7 @@ class TestAvocadoModelPolars(unittest.TestCase):
         )
 
     def test_load_data(self):
-        df = load_data("avocado.csv", library="polars")
+        df = load_data("data/avocado.csv", library="polars")
         self.assertIsNotNone(df)
         self.assertGreater(df.height, 0)
         self.assertEqual(df.width, 14)
