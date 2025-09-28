@@ -1,4 +1,6 @@
 [![Avocado Price Analysis](https://github.com/ammylin/avocado-price-analysis/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/ammylin/avocado-price-analysis/actions/workflows/main.yml)
+![Dev Container](https://img.shields.io/badge/Dev%20Container-enabled-brightgreen)
+![Docker](https://img.shields.io/badge/Docker-enabled-brightgreen)
 
 # IDS 706: Avocado Price Analysis (Weeks 2-5)
 
